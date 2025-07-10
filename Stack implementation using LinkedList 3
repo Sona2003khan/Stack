@@ -1,0 +1,86 @@
+public class Stack_implementation_using_LinkedList {
+    int val;
+    Stack_implementation_using_LinkedList node;
+    static Stack_implementation_using_LinkedList head = null;
+
+    public Stack_implementation_using_LinkedList(int val) {
+        this.val = val;
+        this.node = null;
+    }
+
+    // Time: O(1), Space: O(1)
+    public void push(int val) {
+        Stack_implementation_using_LinkedList newNode = new Stack_implementation_using_LinkedList(val);
+        newNode.node = head;
+        head = newNode;
+    }
+
+    // Time: O(1), Space: O(1)
+    public int pop() {
+        if (head == null) {
+            System.out.println("Stack Underflow");
+            return -1;
+        }
+        int val = head.val;
+        head = head.node;
+        return val;
+    }
+
+    // Time: O(1), Space: O(1)
+    public boolean isEmpty() {
+        return head == null;
+    }
+
+    // Time: O(1), Space: O(1)
+    public int peek() {
+        if (head == null) {
+            System.out.println("Stack is empty");
+            return -1;
+        }
+        return head.val;
+    }
+
+    // Time: O(n), Space: O(1)
+    public void display() {
+        Stack_implementation_using_LinkedList temp = head;
+        while (temp != null) {
+            System.out.print(temp.val + " ");
+            temp = temp.node;
+        }
+        System.out.println();
+    }
+
+    // Time: O(n), Space: O(1)
+    public int getMiddle() {
+        if (head == null) {
+            System.out.println("Stack is empty");
+            return -1;
+        }
+
+        Stack_implementation_using_LinkedList slow = head;
+        Stack_implementation_using_LinkedList fast = head;
+
+        while (fast != null && fast.node != null) {
+            slow = slow.node;
+            fast = fast.node.node;
+        }
+
+        return slow.val;
+    }
+
+    public static void main(String[] args) {
+        Stack_implementation_using_LinkedList st = new Stack_implementation_using_LinkedList(-1);
+
+        st.push(3);
+        st.push(9);
+        st.push(2);
+        st.push(6);
+        st.push(1); // Stack top: 1
+
+        st.pop();   // Popped 1
+
+        st.display();  // Output: 6 2 9 3
+
+        System.out.println("Middle Element: " + st.getMiddle()); // Output: 2
+    }
+}
