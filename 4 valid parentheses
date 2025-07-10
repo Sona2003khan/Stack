@@ -1,0 +1,35 @@
+import java.util.Stack;
+
+public class Stack_valid_parenthesis_4 {
+
+    // Time: O(n), Space: O(n) where n = length of input string
+    public static boolean valid_parentheses(String s) {
+        Stack<Character> st = new Stack<>();
+
+        for (int i = 0; i < s.length(); i++) {
+            char ch = s.charAt(i);
+
+            if (ch == '(' || ch == '{' || ch == '[') {
+                st.push(ch);
+            }
+
+            // ✅ Add a check to avoid EmptyStackException
+            else if (!st.isEmpty() &&
+                    (ch == ')' && st.peek() == '(' ||
+                     ch == '}' && st.peek() == '{' ||
+                     ch == ']' && st.peek() == '[')) {
+                st.pop();
+            } else {
+                return false;
+            }
+        }
+
+        return st.isEmpty();
+    }
+
+    // Time: O(n), Space: O(n)
+    public static void main(String[] args) {
+        String s = "()[]{}(";
+        System.out.println(valid_parentheses(s));  // Output: false
+    }
+}
