@@ -1,0 +1,65 @@
+import java.util.Stack;
+
+public class Stack_Min_value_5 {
+    static Stack<Integer> st;
+    static Stack<Integer> min_st;
+
+    public Stack_Min_value_5() {
+        st = new Stack<>();
+        min_st = new Stack<>();
+    }
+
+    // Time: O(1), Space: O(1)
+    public void push(int val) {
+        st.push(val);
+        if (min_st.isEmpty() || val <= min_st.peek()) {
+            min_st.push(val);
+        }
+    }
+
+    // Time: O(1), Space: O(1)
+    public void pop() {
+        int popped_value = st.pop();
+        if (!min_st.isEmpty() && popped_value == min_st.peek()) {
+            min_st.pop();
+        }
+    }
+
+    // Time: O(1), Space: O(1)
+    public int peek() {
+        return st.isEmpty() ? -1 : st.peek();
+    }
+
+    // Time: O(1), Space: O(1)
+    public int get_min() {
+        return min_st.isEmpty() ? -1 : min_st.peek();
+    }
+
+    // Time: O(n), Space: O(1)
+    public void display() {
+        System.out.println(st);
+    }
+
+    public static void main(String[] args) {
+        Stack_Min_value_5 stack = new Stack_Min_value_5();
+
+        stack.push(5);
+        stack.push(2);
+        stack.push(8);
+        stack.push(1);
+        stack.push(3);
+
+        System.out.println("Stack: ");
+        stack.display();
+
+        System.out.println("Top: " + stack.peek());       // 3
+        System.out.println("Min: " + stack.get_min());    // 1
+
+        stack.pop(); // removes 3
+        stack.pop(); // removes 1
+
+        System.out.println("After popping twice:");
+        stack.display();          // [5, 2, 8]
+        System.out.println("Min: " + stack.get_min());    // 2 ✅ correct now
+    }
+}
