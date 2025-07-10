@@ -13,7 +13,7 @@ public class Stack_implementation_using_LinkedList {
         Stack_implementation_using_LinkedList newNode = new Stack_implementation_using_LinkedList(val);
         newNode.node = head;
         head = newNode;
-    }
+    } 
 
     // Time: O(1), Space: O(1)
     public int pop() {
