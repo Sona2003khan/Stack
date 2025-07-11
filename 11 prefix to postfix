@@ -1,0 +1,44 @@
+import java.util.Stack;
+
+public class Stack_prefix_to_postfix_11 {
+
+    // Function to convert prefix expression to postfix
+    public static String prefix_to_postfix(String s) {
+        Stack<String> st = new Stack<>();
+
+        // Traverse from right to left
+        for (int i = s.length() - 1; i >= 0; i--) {
+            char ch = s.charAt(i);
+
+            if (Character.isLetterOrDigit(ch)) {
+                // Operand: push to stack
+                st.push(Character.toString(ch));
+            } else {
+                // Operator: pop two operands, combine them in postfix format
+                String top1 = st.pop();
+                String top2 = st.pop();
+                String both = top1 + top2 + ch; // Postfix = operand1 operand2 operator
+                st.push(both);
+            }
+        }
+
+        return st.pop(); // Final postfix expression
+    }
+
+    public static void main(String[] args) {
+        String prefix = "-+a*bc d";
+        String cleanedPrefix = prefix.replaceAll("\\s+", ""); // Remove spaces if any
+        String postfix = prefix_to_postfix(cleanedPrefix);
+        System.out.println(postfix);  // Output: abc*+d-
+    }
+}
+
+/*
+Time Complexity: O(n)
+- Each character is processed once.
+- String concatenation is done for only two strings at a time, no nesting.
+
+Space Complexity: O(n)
+- Stack stores at most n/2 expressions.
+- Final postfix expression length is O(n).
+*/
