@@ -1,0 +1,31 @@
+import java.util.Stack;
+
+public class Stack_postfix_to_infix_8 {
+
+    public static String postfix_to_infix(String s) {
+        Stack<String> st = new Stack<>();
+
+        for (int i = 0; i < s.length(); i++) {
+            char ch = s.charAt(i);
+
+            if (Character.isLetterOrDigit(ch)) {
+                st.push(Character.toString(ch));
+            } else {
+                String op1 = st.pop();
+                String op2 = st.pop();
+                String both = "(" + op2 + ch + op1 + ")";
+                st.push(both);
+            }
+        }
+        return st.pop();
+    }
+
+    public static void main(String[] args) {
+        String s = "ab+c+";
+        String infix = postfix_to_infix(s);
+        System.out.println(infix);  // Output: ((a+b)+c)
+    }
+}
+
+// Time Complexity: O(n), where n is the length of the postfix expression.
+// Space Complexity: O(n), due to stack storing intermediate expressions.
