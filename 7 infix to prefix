@@ -1,0 +1,86 @@
+import java.util.Stack;
+
+public class Stack_infix_to_prefix_7 {
+
+    // Returns precedence of operators
+    public static int priority(char ch) {
+        switch (ch) {
+            case '+':
+            case '-':
+                return 1;
+            case '/':
+            case '*':
+                return 2;
+            case '^':
+                return 3;
+        }
+        return -1;
+    }
+
+    // Converts a given infix expression to postfix
+    public static String infix_to_postfix(String s) {
+        StringBuilder sb = new StringBuilder();
+        Stack<Character> st = new Stack<>();
+
+        for (int i = 0; i < s.length(); i++) {
+            char ch = s.charAt(i);
+
+            if (Character.isLetterOrDigit(ch)) {
+                sb.append(ch); // Append operands directly
+            } else if (ch == '(') {
+                st.push(ch);
+            } else if (ch == ')') {
+                while (!st.isEmpty() && st.peek() != '(') {
+                    sb.append(st.pop());
+                }
+                st.pop(); // Pop '('
+            } else { // Operator
+                while (!st.isEmpty() && priority(ch) <= priority(st.peek())) {
+                    sb.append(st.pop());
+                }
+                st.push(ch);
+            }
+        }
+
+        while (!st.isEmpty()) {
+            sb.append(st.pop());
+        }
+
+        return sb.toString();
+    }
+
+    // Converts infix to prefix using reversal + postfix logic
+    public static String Stack_infix_to_prefix(String infix) {
+        // Step 1: Reverse the infix expression
+        StringBuilder sb = new StringBuilder(infix);
+        sb.reverse();
+
+        // Step 2: Swap '(' with ')' and vice versa
+        for (int i = 0; i < sb.length(); i++) {
+            char ch = sb.charAt(i);
+            if (ch == '(') {
+                sb.setCharAt(i, ')');
+            } else if (ch == ')') {
+                sb.setCharAt(i, '(');
+            }
+        }
+
+        // Step 3: Convert reversed & modified infix to postfix
+        String postfix = infix_to_postfix(sb.toString());
+
+        // Step 4: Reverse the postfix result to get prefix
+        return new StringBuilder(postfix).reverse().toString();
+    }
+
+    public static void main(String[] args) {
+        String s = "((A+B)*C-(D-E))^(F+G)";
+        String prefix = Stack_infix_to_prefix(s);
+
+        System.out.println("Prefix: " + prefix); // Expected: ^-*+ABC-DE+FG
+    }
+}
+
+// Time Complexity: O(n) — where n is the length of the expression.
+// Each character is visited a constant number of times (reverse, stack ops, etc).
+
+// Space Complexity: O(n) — due to use of stack and StringBuilder for output.
