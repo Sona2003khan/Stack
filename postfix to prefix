@@ -1,0 +1,31 @@
+import java.util.Stack;
+
+public class Stack_postfix2prefix {
+
+    public static String postfix_to_prefix(String s) {
+        Stack<String> st = new Stack<>();
+
+        for (int i = 0; i < s.length(); i++) {
+            char ch = s.charAt(i);
+
+            if (Character.isLetterOrDigit(ch)) {
+                st.push(Character.toString(ch));
+            } else {
+                String t1 = st.pop();
+                String t2 = st.pop();
+                String both = ch + t2 + t1;
+                st.push(both);
+            }
+        }
+        return st.pop();
+    }
+
+    public static void main(String[] args) {
+        String s = "ab+c+";
+        String ans = postfix_to_prefix(s);
+        System.out.println(ans); // Output: ++a b c
+    }
+}
+
+// Time Complexity: O(n) - single traversal of input string
+// Space Complexity: O(n) - stack stores up to n elements in worst case
